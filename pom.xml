@@ -4,7 +4,7 @@
   <groupId>com.nordstrom.ui-tools</groupId>
   <artifactId>local-grid-utility</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.1.0-SNAPSHOT</version>
   
   <name>local-grid-utility</name>
   <description></description>
@@ -36,15 +36,16 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <foundation.version>16.0.1-s3</foundation.version>
-    <htmlunit.version>2.33.3</htmlunit.version>
-    <jcommander.version>1.72</jcommander.version>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <foundation.version>16.1.0-s2</foundation.version>
+    <htmlunit.version>2.21</htmlunit.version>
+    <jcommander.version>1.48</jcommander.version>
     <jar-plugin.version>3.1.0</jar-plugin.version>
-    <shade-plugin.version>3.1.1</shade-plugin.version>
+    <shade-plugin.version>3.2.1</shade-plugin.version>
     <commons-lang3.version>3.8.1</commons-lang3.version>
     <commons-text.version>1.6</commons-text.version>
+    <toolchains-plugin.version>1.1</toolchains-plugin.version>
   </properties>
   
   <scm>
@@ -76,6 +77,11 @@
         </exclusions>
       </dependency>
       <dependency>
+        <groupId>net.sourceforge.htmlunit</groupId>
+        <artifactId>htmlunit</artifactId>
+        <version>${htmlunit.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>htmlunit-driver</artifactId>
         <version>${htmlunit.version}</version>
@@ -104,6 +110,10 @@
       <artifactId>selenium-foundation</artifactId>
     </dependency>
     <dependency>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>htmlunit-driver</artifactId>
     </dependency>
@@ -118,6 +128,11 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>${toolchains-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>${jar-plugin.version}</version>
         </plugin>
@@ -126,9 +141,52 @@
           <artifactId>maven-shade-plugin</artifactId>
           <version>${shade-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-toolchains-plugin</artifactId>
+                    <versionRange>[1.0.0,)</versionRange>
+                    <goals>
+                      <goal>toolchain</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-toolchains-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>toolchain</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <toolchains>
+            <jdk>
+              <version>1.7</version>
+              <vendor>oracle</vendor>
+            </jdk>
+          </toolchains>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -144,6 +202,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
+        <configuration>
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+        </configuration>
         <executions>
           <execution>
             <phase>package</phase>
@@ -151,6 +212,16 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
               <artifactSet>
                 <excludes>
                   <exclude>org.seleniumhq.selenium:selenium-chrome-driver</exclude>
@@ -162,6 +233,10 @@
                   <exclude>org.seleniumhq.selenium:selenium-safari-driver</exclude>
                 </excludes>
               </artifactSet>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer" />
+              </transformers>
             </configuration>
           </execution>
         </executions>

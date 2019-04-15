@@ -15,7 +15,7 @@ import com.nordstrom.automation.selenium.core.SeleniumGrid;
 public class Main {
     public static void main(String... args) throws InterruptedException, ConfigurationException, IOException, TimeoutException {
         LocalGridOptions opts = new LocalGridOptions();
-        JCommander.newBuilder().addObject(opts).build().parse(args);
+        new JCommander(opts, args);
         
         if (opts.getPort() != null) {
             System.setProperty(SeleniumSettings.HUB_PORT.key(), opts.getPort().toString());
