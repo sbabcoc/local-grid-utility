@@ -65,7 +65,7 @@
   </distributionManagement>
   
   <dependencyManagement>
-  	<dependencies>
+    <dependencies>
       <dependency>
         <groupId>com.nordstrom.ui-tools</groupId>
         <artifactId>selenium-foundation</artifactId>
