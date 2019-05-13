@@ -44,6 +44,7 @@
     <gpg-plugin.version>1.6</gpg-plugin.version>
     <staging-plugin.version>1.6.7</staging-plugin.version>
     <release-plugin.version>2.5.3</release-plugin.version>
+    <skipSigning>true</skipSigning>
   </properties>
   
   <scm>
