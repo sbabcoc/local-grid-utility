@@ -250,6 +250,9 @@
                 <filter>
                   <artifact>*:*</artifact>
                   <excludes>
+                    <exclude>rhinoDiff.txt</exclude>
+                    <exclude>nodeConfig-s3.json</exclude>
+                    <exclude>nodeConfig-s2-*.json</exclude>
                     <exclude>META-INF/*.SF</exclude>
                     <exclude>META-INF/*.DSA</exclude>
                     <exclude>META-INF/*.RSA</exclude>
