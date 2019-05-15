@@ -1,3 +1,5 @@
+[![Maven Central](https://img.shields.io/maven-central/v/com.nordstrom.ui-tools/local-grid-utility.svg)](https://mvnrepository.com/artifact/com.nordstrom.ui-tools/local-grid-utility)
+
 # local-grid-utility
 
 This utility enables you to launch and shutdown a Selenium 2 Grid instance that manages five `HtmlUnit` sessions.
