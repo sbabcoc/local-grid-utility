@@ -6,7 +6,7 @@ This utility enables you to launch and shutdown a Selenium 2 Grid instance that 
 
 ## Launch Local Grid
 
-In one step, **`local-grid-utility`** launches a Selenium Grid server and a single node that supplies `HtmlUnit` sessions:
+In one step, **`local-grid-utility`** launches a Selenium Grid hub and a single node that supplies `HtmlUnit` sessions:
 
 ```bash
 java -jar local-grid-utility.jar
