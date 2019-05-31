@@ -40,7 +40,8 @@ public class Main {
             SeleniumGrid.create(config, hubUrl).shutdown(true);
         } else {
             if (!isActive) {
-                SeleniumGrid.create(config, hubUrl);
+                SeleniumGrid grid = SeleniumGrid.create(config, hubUrl);
+                hubUrl = grid.getHubServer().getUrl();
             }
             JCommander.getConsole().println(hubUrl.toString());
         }
