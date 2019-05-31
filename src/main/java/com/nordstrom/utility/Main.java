@@ -7,7 +7,7 @@ import java.util.concurrent.TimeoutException;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import com.beust.jcommander.JCommander;
-import com.nordstrom.automation.selenium.AbstractSeleniumConfig.SeleniumSettings;
+import com.beust.jcommander.ParameterException;
 import com.nordstrom.automation.selenium.SeleniumConfig;
 import com.nordstrom.automation.selenium.core.GridUtility;
 import com.nordstrom.automation.selenium.core.SeleniumGrid;
@@ -15,11 +15,21 @@ import com.nordstrom.automation.selenium.core.SeleniumGrid;
 public class Main {
     public static void main(String... args) throws InterruptedException, ConfigurationException, IOException, TimeoutException {
         LocalGridOptions opts = new LocalGridOptions();
-        new JCommander(opts, args);
-        
-        if (opts.getPort() != null) {
-            System.setProperty(SeleniumSettings.HUB_PORT.key(), opts.getPort().toString());
+        JCommander parser = new JCommander(opts);
+        try {
+            parser.parse(args);
+        } catch (ParameterException e) {
+            JCommander.getConsole().println(e.getMessage());
+            opts.setHelp();
         }
+        
+        if (opts.isHelp()) {
+            parser.setProgramName("local-grid-utility");
+            parser.usage();
+            return;
+        }
+        
+        opts.injectSettings();
         
         SeleniumConfig config = new SeleniumConfig();
         
@@ -32,7 +42,7 @@ public class Main {
             if (!isActive) {
                 SeleniumGrid.create(config, hubUrl);
             }
-            System.out.println(hubUrl);
+            JCommander.getConsole().println(hubUrl.toString());
         }
     }
 }
