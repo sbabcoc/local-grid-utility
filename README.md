@@ -18,7 +18,7 @@ The following is the output from launching a local Grid collection:
 
 > $ java -jar local-grid-utility.jar  
 > 15:21:04.063 [main] INFO  org.eclipse.jetty.util.log - Logging initialized @5864ms  
-> http://10.18.32.105:4444/wd/hub
+> http://192.168.0.16:4444/wd/hub
 
 Note that the last line of the output provides the URL from which to request remote driver sessions.
 
@@ -36,12 +36,17 @@ This command shuts down the Grid hub and all attached nodes.
 
 * `-port` : specify port for local hub server (default = 4444)
 * `-shutdown` : shut down active local Grid collection
+* `-workingDir` : working directory for servers
+* `-logsFolder` : server output logs folder (default = "logs")
+* `-noRedirect` : disable server output redirection (default = `false`)
 
 ## Notes
 
 The port used by the node server that supplies **`HtmlUnit`** sessions is auto-selected via the [PortProber.findFreePort()](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/net/PortProber.html#findFreePort--) method of the **`selenium-remote-driver`** library.
 
-**`local-grid-utility`** redirects the output of the hub and node servers to log files in a `logs` folder under the current working directory. Each log file contains the output from a single launch of its associated server. Log file names are auto-incremented to avoid overwriting or appending to the output of previous launches.
+Unless disabled with the `noRedirect` option, **`local-grid-utility`** redirects the output of the hub and node servers to log files in a `logs` folder under the current working directory. Each log file contains the output from a single launch of its associated server. Log file names are auto-incremented to avoid overwriting or appending to the output of previous launches.
 
 * `grid-hub*.log` for hub server output
 * `grid-node*.log` for node server output
+
+The default output folder can be overridden with the `logsFolder` option, specifying either absolute or relative path. If a relative path is specified, or the default ("logs") is accepted, logs are written to a sub-folder of the current working directory, which can be overridden with the `workingDir` option.
