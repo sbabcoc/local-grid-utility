@@ -4,7 +4,7 @@
   <artifactId>local-grid-utility</artifactId>
   <packaging>jar</packaging>
   
-  <version>1.2.2</version>
+  <version>1.2.3-SNAPSHOT</version>
   
   <name>Local Grid Utility</name>
   <description>This utility enables you to launch and shutdown a Selenium 2 Grid instance that manages five HtmlUnit sessions.</description>
