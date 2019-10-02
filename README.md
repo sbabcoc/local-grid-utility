@@ -2,14 +2,20 @@
 
 # local-grid-utility
 
-This utility enables you to launch and shutdown a Selenium 2 Grid instance that manages five **`HtmlUnit`** sessions.
+This utility enables you to launch and shutdown a Selenium 2 Grid instance that manages five **`PhantomJS`** sessions.
 
 ## Launch Local Grid
 
-In one step, **`local-grid-utility`** launches a Selenium Grid hub and a single node that supplies `HtmlUnit` sessions:
+In one step, **`local-grid-utility`** launches a Selenium Grid hub and a single node that supplies `PhantomJS` sessions:
 
 ```bash
 java -jar local-grid-utility.jar
+```
+
+The driver for the **`PhantomJS`** browser requires access to a compatible binary. By default, **`local-grid-utility`** will search for the **`PhantomJS`** binary on the file search path. To provide a specific path from which to load the binary, set the `phantomjs.binary.path` system property:
+
+```bash
+java -Dphantomjs.binary.path=C:\tools\drivers\phantomjs.exe -jar local-grid-utility.jar
 ```
 
 ### Example
@@ -42,7 +48,7 @@ This command shuts down the Grid hub and all attached nodes.
 
 ## Notes
 
-The port used by the node server that supplies **`HtmlUnit`** sessions is auto-selected via the [PortProber.findFreePort()](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/net/PortProber.html#findFreePort--) method of the **`selenium-remote-driver`** library.
+The port used by the node server that supplies **`PhantomJS`** sessions is auto-selected via the [PortProber.findFreePort()](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/net/PortProber.html#findFreePort--) method of the **`selenium-remote-driver`** library.
 
 Unless disabled with the `noRedirect` option, **`local-grid-utility`** redirects the output of the hub and node servers to log files in a `logs` folder under the current working directory. Each log file contains the output from a single launch of its associated server. Log file names are auto-incremented to avoid overwriting or appending to the output of previous launches.
 
