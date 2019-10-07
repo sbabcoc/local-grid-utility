@@ -67,5 +67,15 @@ public class LocalGridOptions {
         if (noRedirect != null) {
             System.setProperty(SeleniumSettings.GRID_NO_REDIRECT.key(), noRedirect.toString());
         }
+        
+        // fix corrupted system property value
+        String path = System.getProperty("phantomjs.binary.path");
+        if ((path.startsWith("/\"")) && path.endsWith("\"")) {
+            System.out.println("Fixing corrupted system property value");
+            int endIndex = path.length() - 1;
+            System.setProperty("phantomjs.binary.path", path.substring(2, endIndex));
+        } else {
+            System.out.println("System property value: " + path);
+        }
     }
 }
