@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/com.nordstrom.ui-tools/local-grid-utility.svg)](https://search.maven.org/search?q=g:com.nordstrom.ui-tools%20AND%20a:local-grip-utility&core=gav)
+[![Maven Central](https://img.shields.io/maven-central/v/com.nordstrom.ui-tools/local-grid-utility.svg)](https://search.maven.org/search?q=g:com.nordstrom.ui-tools%20AND%20a:local-grid-utility&core=gav)
 
 # local-grid-utility
 
