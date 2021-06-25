@@ -9,6 +9,7 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.nordstrom.automation.selenium.SeleniumConfig;
+import com.nordstrom.automation.selenium.AbstractSeleniumConfig.SeleniumSettings;
 import com.nordstrom.automation.selenium.core.GridUtility;
 import com.nordstrom.automation.selenium.core.SeleniumGrid;
 
@@ -22,18 +23,24 @@ public class Main {
             JCommander.getConsole().println(e.getMessage());
             opts.setHelp();
         }
-        
+
         if (opts.isHelp()) {
             parser.setProgramName("local-grid-utility");
             parser.usage();
             return;
         }
-        
+
         opts.injectSettings();
-        
+
         SeleniumConfig config = new SeleniumConfig();
-        
+
         URL hubUrl = config.getHubUrl();
+        if (hubUrl == null) {
+            int hubPort = config.getInt(SeleniumSettings.HUB_PORT.key());
+            String hostStr = "http://" + GridUtility.getLocalHost() + ":" + hubPort;
+            hubUrl = new URL(hostStr);
+        }
+
         boolean isActive = GridUtility.isHubActive(hubUrl);
         
         if (opts.doShutdown() && isActive) {
